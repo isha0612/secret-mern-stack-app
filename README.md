@@ -3,7 +3,7 @@
 
 I've created a secret application utilizing technologies such as HTML, CSS and React.js for the frontend, along with Node.js, Express.js for the backend and MongoDB for the database. The application features a robust authentication system, incorporating user registration, login and password recovery functionality through the utilization of JSON Web Tokens and cookies. Additionally, there's a section for sharing secrets anonymously, where all posted secrets are listed without revealing the user identities. Users also have the option to submit their secrets anonymously.
 
-Link to the website - https://secret-mern-stack-app-frontend.vercel.app/
+Link to the website - https://secret-mern-stack-app.vercel.app/
 
 ## Clone the repository
 ```terminal
