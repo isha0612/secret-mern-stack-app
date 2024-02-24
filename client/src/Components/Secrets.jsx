@@ -37,17 +37,23 @@ function Secrets() {
     return (
         <div className="jumbotron text-center">
             <div className="container-fluid">
-                <i className="fas fa-key fa-6x">
-                <h1 className="display-3">Anonymous Secrets!</h1>
-                </i>
+                <div class="m-4 d-flex flex-row align-items-center justify-content-end">
+                    <i className="fas fa-key fa-6x mr-auto ml-auto">
+                        <h1 className="display-3">Anonymous Secrets!</h1>
+                    </i>
+                    <div class="dropdown">
+                        <img src={require("../images/profile.png")} alt="Avatar" class="avatar dropdown-toggle" data-bs-toggle="dropdown" style={{ "cursor": "pointer" }} />
+                        <div className="dropdown-menu bg-dark text-light pl-2 pt-2 pb-2 pr-2">
+                            <li className="m-2"><Link to="/submit" style={{"color":"inherit", "textDecoration":"none"}}>Submit a Secret</Link></li>
+                            <li className="m-2" onClick={handleLogout} style={{"cursor":"pointer"}}>Log Out</li>
+                        </div>
+                    </div>
+                </div>
+
                 <hr />
-                <button onClick={handleLogout} className="btn btn-light btn-lg mr-4">Log Out</button>
-                <Link to="/submit">
-                    <button className="btn btn-dark btn-lg">Submit a Secret</button>
-                </Link>
                 <br />
                 {data === undefined || data.length === 0 ?
-                    <div className="spinner-border" style={{"width": "6rem", "height": "6rem", "role":"status", "marginTop": "2rem"}}>
+                    <div className="spinner-border" style={{ "width": "6rem", "height": "6rem", "role": "status", "marginTop": "2rem" }}>
                         <span className="sr-only">Loading...</span>
                     </div>
                     :
