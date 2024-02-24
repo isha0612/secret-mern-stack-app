@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useMemo} from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {axiosInst} from "../utils/axios.js";
 import { useUser } from "../Context/index.js";
 import { ToastContainer, toast } from 'react-toastify';
@@ -19,11 +19,10 @@ function ResetPassword() {
         const jwtoken = query.get("jwtoken");
         if(jwtoken) {
             localStorage.setItem("jwtoken", jwtoken);
-            setIsAuthenticated(true);
         }
     }, [query, setIsAuthenticated]);
-    const { id } = useParams();
-        let [userDetails, setUserDetails] = useState({
+    const id = query.get("id");
+    let [userDetails, setUserDetails] = useState({
         password1: "",
         password2: ""
     });
@@ -41,7 +40,7 @@ function ResetPassword() {
     async function handleForm(e) {
         e.preventDefault();
         if(userDetails.password1 !== userDetails.password2) {
-            toast("Passwords do not match. Try again!", {type : "warning"});
+            toast("Passwords do not match. Try again!", {type : "warning", autoClose: 1000});
             setUserDetails(() => {
                 return {
                     password1: "", 
@@ -52,14 +51,16 @@ function ResetPassword() {
         }
         console.log("Form is submitted");
         try {
-            const data = await axiosInst.post(`/reset-password/${id}`, userDetails);
+            const data = await axiosInst.post(`/reset-password?id=${id}`, userDetails);
             console.log(data);
             if(data.status === 201) {
-                navigate("/login");
+                toast(data.data.message, {type : "success", autoClose: 1000, onClose: () => {
+                    navigate("/login");
+                }});
             }
         }
         catch(err) {
-            toast(err.response.data.error, {type : "error"});
+            toast(err.response.data.error, {type : "error", autoClose: 1000});
             setUserDetails(() => {
                 return {
                     password1: "", 

@@ -21,11 +21,11 @@ function ForgotPassword() {
         try {
             const data = await axiosInst.post("/forgot-password", {email});
             if (data.status === 201) {
-                toast("Kindly check the email where a password reset link has been sent.", {type : "success"});
+                toast("Kindly check the email where a password reset link has been sent.", {type : "success", autoClose: 1000});
             }
         }
         catch (err) {
-            toast(err.response.data.error, {type : "error"});
+            toast(err.response.data.error, {type : "error", autoClose: 1000});
         }
     }
 

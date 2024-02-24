@@ -34,11 +34,13 @@ function Login() {
             if (data.status === 201) {
                 setIsAuthenticated(true);
                 localStorage.setItem("jwtoken", data.data.jwtoken);
-                navigate("/secrets");
+                toast(data.data.message, { type: "success", autoClose: 1000, onClose: () => {
+                    navigate("/secrets");
+                }});
             }
         }
         catch (err) {
-            toast(err.response.data.error, { type: "error" });
+            toast(err.response.data.error, { type: "error", autoClose: 1000});
             setUserDetails(() => {
                 return {
                     email: "", 

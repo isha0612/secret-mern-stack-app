@@ -24,11 +24,13 @@ function Submit() {
             console.log(data);
             if (data.status === 201) {
                 setIsAuthenticated(true);
-                navigate("/secrets");
+                toast(data.data.message, { type: "success", autoClose: 1000, onClose: () => {
+                    navigate("/secrets");
+                }});
             }
 
         } catch(err) {
-            toast(err.response.data.error, {type : "error"});
+            toast(err.response.data.error, {type : "error", autoClose: 1000});
         }
     }
 

@@ -40,7 +40,7 @@ const forgetPassword = async (req, res) => {
             from: 'ishagupta062002@gmail.com',
             to: email,
             subject: "Reset password",
-            text: `Click on this link to set a new password for your account - ${process.env.REACT_URL}/reset-password/${userExist._id}?jwtoken=${token}`,
+            text: `Click on this link to set a new password for your account - ${process.env.REACT_URL}/reset-password?id=${userExist._id}&jwtoken=${token}`,
         });
     
         console.log("Message sent: %s", info.messageId);

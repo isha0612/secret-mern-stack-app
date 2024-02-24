@@ -21,7 +21,7 @@ function App() {
           <Route exact path='/forgot-password' element={<ForgotPassword />} />
           <Route exact path="/secrets" element={<PrivateRoute><Secrets /></PrivateRoute>} />
           <Route exact path="/submit" element={<PrivateRoute><Submit /></PrivateRoute>} />
-          <Route exact path="/reset-password/:id" element={<ResetPassword />} />
+          <Route exact path="/reset-password" element={<ResetPassword />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>

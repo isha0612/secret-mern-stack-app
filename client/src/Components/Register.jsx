@@ -27,7 +27,7 @@ function Register() {
     async function handleForm(e) {
         e.preventDefault();
         if(userDetails.password1 !== userDetails.password2) {
-            toast("Passwords do not match. Try again!", {type : "warning"});
+            toast("Passwords do not match. Try again!", {type : "warning", autoClose: 1000});
             setUserDetails(() => {
                 return {
                     email: "", 
@@ -44,11 +44,13 @@ function Register() {
             if(data.status === 201) {
                 setIsAuthenticated(true);
                 localStorage.setItem("jwtoken", data.data.jwtoken);
-                navigate("/secrets");
+                toast(data.data.message, { type: "success", autoClose: 1000, onClose: () => {
+                    navigate("/secrets");
+                }});
             }
         }
         catch(err) {
-            toast(err.response.data.error, {type : "error"});
+            toast(err.response.data.error, {type : "error", autoClose: 1000});
             setUserDetails(() => {
                 return {
                     email: "", 

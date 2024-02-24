@@ -2,8 +2,14 @@ const User = require('../models/userSchema');
 const bcrypt = require('bcryptjs');
 
 const resetPassword = async (req, res) => {
-    const {id} = req.params; 
-    console.log(id);
+    const id1 = req._id.toString(); 
+    const id2 = req.query.id;
+    console.log("ID1 : ",id1);
+    console.log("ID2 : ",id2);
+
+    if(id1 !== id2) {   
+        return res.status(401).json({error: "Unauthorized"});
+    }
     const { password1 } = req.body;
 
     if(!password1) {
@@ -11,7 +17,7 @@ const resetPassword = async (req, res) => {
     }
 
     try {
-        const userExist = await User.findOne({ _id: id });
+        const userExist = await User.findOne({ _id: id1 });
         console.log(userExist);
 
         if(!userExist) {
@@ -20,7 +26,7 @@ const resetPassword = async (req, res) => {
 
         const password = await bcrypt.hash(password1, 10);
 
-        await User.findByIdAndUpdate(id, {password: password});
+        await User.findByIdAndUpdate(id1, {password: password});
         res.status(201).json({message: "Password reset successfully!!!!"});
     }
 

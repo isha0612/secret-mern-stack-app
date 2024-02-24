@@ -21,17 +21,19 @@ function Secrets() {
                 }
             }
             catch (err) {
-                toast(err.response.data.error, { type: "error" });
+                toast(err.response.data.error, { type: "error" , autoClose: 1000});
             }
         }
         getData();
     }, []);
 
     function handleLogout() {
-        setIsAuthenticated(false);
         // document.cookie = "jwtoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         localStorage.removeItem("jwtoken");
-        navigate('/');
+        toast("User successfully Logged Out!", { type: "success", autoClose: 1000, onClose: () => {
+            setIsAuthenticated(false);
+            navigate("/");
+        }});
     }
 
     return (
