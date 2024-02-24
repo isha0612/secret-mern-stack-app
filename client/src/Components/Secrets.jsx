@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { axiosInst } from "../utils/axios";
 import { SecretCards } from "./SecretCards";
 import { useUser } from "../Context";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Secrets() {
     const { setIsAuthenticated } = useUser();
@@ -14,11 +16,12 @@ function Secrets() {
             try {
                 console.log("Trying to get data");
                 const response = await axiosInst.get("/secrets");
-                console.log(response);
-                setData(response.data);
+                if (response.status === 200 || response.status === 201) {
+                    setData(response.data);
+                }
             }
             catch (err) {
-                alert(err.message);
+                toast(err.response.data.error, { type: "error" });
             }
         }
         getData();
@@ -34,8 +37,9 @@ function Secrets() {
     return (
         <div className="jumbotron text-center">
             <div className="container-fluid">
-                <i className="fas fa-key fa-6x"></i>
+                <i className="fas fa-key fa-6x">
                 <h1 className="display-3">Anonymous Secrets!</h1>
+                </i>
                 <hr />
                 <button onClick={handleLogout} className="btn btn-light btn-lg mr-4">Log Out</button>
                 <Link to="/submit">
@@ -46,11 +50,12 @@ function Secrets() {
                     <div className="spinner-border" style={{"width": "6rem", "height": "6rem", "role":"status", "marginTop": "2rem"}}>
                         <span className="sr-only">Loading...</span>
                     </div>
-                    : 
+                    :
                     <div className="text-left ml-4">{data.map((d) => <SecretCards secret={d.secret} key={d._id} />)}</div>
                 }
             </div>
-        </div>
+            <ToastContainer />
+        </div >
     );
 }
 

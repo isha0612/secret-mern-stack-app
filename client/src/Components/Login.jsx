@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { axiosInst } from "../utils/axios.js";
 import { useUser } from "../Context";
 import { useNavigate, Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
 
@@ -36,7 +38,13 @@ function Login() {
             }
         }
         catch (err) {
-            alert(err.message);
+            toast(err.response.data.error, { type: "error" });
+            setUserDetails(() => {
+                return {
+                    email: "", 
+                    password: ""
+                }
+            });
         }
     }
 
@@ -54,14 +62,14 @@ function Login() {
                                     <input type="email" onChange={inputChange}
                                     placeholder="Enter your email"
                                     className="form-control" name="email" id="email"
-                                    value={userDetails.email} required />
+                                    value={userDetails.email} />
                                 </div>
                                 <div className="form-group mb-4">
                                     <label htmlFor="password">Password</label>
                                     <input type="password" onChange={inputChange}
                                     placeholder="Enter your password"
                                     className="form-control" name="password" id="password"
-                                    value={userDetails.password} required />
+                                    value={userDetails.password} />
                                 </div>
                                 <button type="submit" className="btn btn-dark mb-3">Login</button>
                                 <br />
@@ -72,6 +80,7 @@ function Login() {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }

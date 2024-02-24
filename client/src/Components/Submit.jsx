@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import { axiosInst } from "../utils/axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useUser } from "../Context";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Submit() {
     const {setIsAuthenticated} = useUser();
@@ -26,7 +28,7 @@ function Submit() {
             }
 
         } catch(err) {
-            alert(err.message);
+            toast(err.response.data.error, {type : "error"});
         }
     }
 
@@ -42,7 +44,7 @@ function Submit() {
                 <form onSubmit={handleSubmit} action="/" method="POST">
                     <div className="mb-3 mt-5 text-center">
                         <textarea name="secret" className="form-control" rows="3" cols="20" style={{"resize": "none", "width": "40%", "height": "auto", "margin": "auto"}}
-                        placeholder="Enter your secret" value={secret} onChange={inputChange} required/>
+                        placeholder="Enter your secret" value={secret} onChange={inputChange} />
                         <br/>
                         <Link to='/secrets'>
                             <button className="btn btn-light btn-lg mr-4">Secrets Page</button>
@@ -51,6 +53,7 @@ function Submit() {
                     </div>
                 </form>
             </div>
+            <ToastContainer />
         </div>
     );
 }

@@ -2,6 +2,8 @@ import React, {useEffect, useState, useMemo} from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import {axiosInst} from "../utils/axios.js";
 import { useUser } from "../Context/index.js";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function useQuery() {
     const { search } = useLocation();
@@ -21,7 +23,7 @@ function ResetPassword() {
         }
     }, [query, setIsAuthenticated]);
     const { id } = useParams();
-    let [userDetails, setUserDetails] = useState({
+        let [userDetails, setUserDetails] = useState({
         password1: "",
         password2: ""
     });
@@ -39,7 +41,7 @@ function ResetPassword() {
     async function handleForm(e) {
         e.preventDefault();
         if(userDetails.password1 !== userDetails.password2) {
-            alert("Passwords do not match");
+            toast("Passwords do not match. Try again!", {type : "warning"});
             setUserDetails(() => {
                 return {
                     password1: "", 
@@ -50,14 +52,21 @@ function ResetPassword() {
         }
         console.log("Form is submitted");
         try {
-            const data = await axiosInst.post(`/reset-password/${id}`, userDetails);
+            const jwtoken = query.get("jwtoken");
+            const data = await axiosInst.post(`/reset-password/${id}?jwt=${jwtoken}`, userDetails);
             console.log(data);
             if(data.status === 201) {
                 navigate("/login");
             }
         }
         catch(err) {
-            alert(err.message);
+            toast(err.response.data.error, {type : "error"});
+            setUserDetails(() => {
+                return {
+                    password1: "", 
+                    password2: ""
+                }
+            });
         }
     }
 
@@ -75,14 +84,14 @@ function ResetPassword() {
                                     <input type="password" onChange={inputChange} 
                                     placeholder="Enter your new password"
                                     className="form-control" name="password1" id="password1" 
-                                    value={userDetails.password1} required/>
+                                    value={userDetails.password1} />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="password2">Confirm Password</label>
                                     <input type="password" onChange={inputChange} 
                                     placeholder="Enter your new password again"
                                     className="form-control" name="password2" id="password2" 
-                                    value={userDetails.password2} required/>
+                                    value={userDetails.password2} />
                                 </div>
                                 <button type="submit" className="btn btn-dark mt-2">Update Password</button>
                             </form>
@@ -90,6 +99,7 @@ function ResetPassword() {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }

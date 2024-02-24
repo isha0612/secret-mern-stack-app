@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { axiosInst } from "../utils/axios.js";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ForgotPassword() {
 
@@ -19,11 +21,11 @@ function ForgotPassword() {
         try {
             const data = await axiosInst.post("/forgot-password", {email});
             if (data.status === 201) {
-                alert("Kindly check the email where a password reset link has been sent.");
+                toast("Kindly check the email where a password reset link has been sent.", {type : "success"});
             }
         }
         catch (err) {
-            alert(err.message);
+            toast(err.response.data.error, {type : "error"});
         }
     }
 
@@ -41,7 +43,7 @@ function ForgotPassword() {
                                     <input type="email" onChange={inputChange}
                                     placeholder="Enter your email"
                                     className="form-control" name="email" id="email"
-                                    value={email} required />
+                                    value={email} />
                                 </div>
                                 <button type="submit" className="btn btn-dark mb-4">Send</button>
                                 <br />
@@ -51,6 +53,7 @@ function ForgotPassword() {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }

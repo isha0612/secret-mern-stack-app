@@ -1,5 +1,6 @@
 const User = require("../models/userSchema");
 const { generateAuthToken } = require("../utils/jwt");
+const bcrypt = require("bcryptjs");
 
 const register = async (req, res) => {
     const { email, password1 } = req.body;
@@ -14,8 +15,8 @@ const register = async (req, res) => {
         if (userExist) {
             return res.status(422).json({ error: "User already exists" });
         }
-
-        const user = await User.create({email: email, password: password1});
+        const pd = await bcrypt.hash(password1, 10);
+        const user = await User.create({email: email, password: pd});
         const token = generateAuthToken({ _id: user._id });
 
         console.log("token : " + token);
