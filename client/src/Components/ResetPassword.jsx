@@ -52,8 +52,7 @@ function ResetPassword() {
         }
         console.log("Form is submitted");
         try {
-            const jwtoken = query.get("jwtoken");
-            const data = await axiosInst.post(`/reset-password/${id}?jwt=${jwtoken}`, userDetails);
+            const data = await axiosInst.post(`/reset-password/${id}`, userDetails);
             console.log(data);
             if(data.status === 201) {
                 navigate("/login");

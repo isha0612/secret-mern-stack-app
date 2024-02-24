@@ -29,7 +29,7 @@ app.post('/login', login);
 app.get('/secrets', authenticate, get_secrets);
 app.post('/secrets', authenticate, post_secrets);
 app.post('/forgot-password', forgetPassword);
-app.post('/reset-password/:id', resetPassword);
+app.post('/reset-password/:id', authenticate, resetPassword);
 
 app.listen(process.env.PORT, () => {
     console.log('Server running on port ', process.env.PORT);
