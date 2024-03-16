@@ -1,12 +1,10 @@
 import React, {useState} from "react";
 import { axiosInst } from "../utils/axios";
 import { useNavigate, Link } from "react-router-dom";
-import { useUser } from "../Context";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Submit() {
-    const {setIsAuthenticated} = useUser();
     const navigate = useNavigate();
     const [secret, setSecret] = useState("");
 
@@ -23,7 +21,6 @@ function Submit() {
             const data = await axiosInst.post("/secrets", {secret});
             console.log(data);
             if (data.status === 201) {
-                setIsAuthenticated(true);
                 toast(data.data.message, { type: "success", autoClose: 1000, onClose: () => {
                     navigate("/secrets");
                 }});
