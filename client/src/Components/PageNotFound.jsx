@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 function PageNotFound() {
     return (
-        <div class="page-wrap d-flex flex-row align-items-center" style={{'minHeight': '100vh'}}>
+        <div class="page-wrap d-flex flex-row align-items-center" style={{ 'minHeight': '100vh' }}>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-12 text-center">

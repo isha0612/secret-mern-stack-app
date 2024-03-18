@@ -9,7 +9,7 @@ const axiosInst = axios.create({
 axiosInst.interceptors.request.use(
     config => {
         const jwtoken = localStorage.getItem('jwtoken');
-        if(jwtoken) {
+        if (jwtoken) {
             config.headers.Authorization = `Bearer ${jwtoken}`;
         }
         return config;
@@ -19,17 +19,16 @@ axiosInst.interceptors.request.use(
     }
 );
 
-// axiosInst.interceptors.response.use(
-//     response => {
-//         return response;
-//     }
-//     ,(error) => {
-//         if(error.response.status === 401) {
-//             console.log("Unauthorized");
-//             localStorage.removeItem('jwtoken');
-//         }
-//         return Promise.reject(error);
-//     }
-// )
-export {axiosInst};
-// axiosInst.defaults.withCredentials = true
+axiosInst.interceptors.response.use(
+    response => {
+        return response;
+    }
+    , (error) => {
+        if (error) {
+            localStorage.removeItem('jwtoken');
+        }
+        return Promise.reject(error);
+    }
+)
+
+export { axiosInst };

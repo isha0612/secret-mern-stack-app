@@ -6,11 +6,8 @@ const verifyAuthToken = (payload) => {
 
 const generateAuthToken = (payload) => {
     return jwt.sign(payload, process.env.JWTSECRET, {
-        expiresIn: '1h'
+        expiresIn: process.env.EXPIRY
     });
 }
 
-module.exports = {
-    generateAuthToken,
-    verifyAuthToken
-}
+module.exports = { generateAuthToken, verifyAuthToken }

@@ -1,9 +1,8 @@
 const User = require('../models/userSchema');
-const {generateAuthToken} = require('../utils/jwt');
+const { generateAuthToken } = require('../utils/jwt');
 const bcrypt = require('bcryptjs');
 
 const login = async (req, res) => {
-    console.log(req.body);
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -22,23 +21,13 @@ const login = async (req, res) => {
         if (!isMatch) {
             return res.status(422).json({ error: "Invalid credentials" });
         }
-        else {
-            const token = generateAuthToken({ _id: userExist._id });
-            console.log("TOKEN : " + token);
 
-            // res.cookie('jwtoken', token, {
-            //     maxAge: 900000,
-            //     httpOnly: false,
-            //     secure: true
-            // });
-
-            console.log("User logged in successfully!!!!");
-            return res.status(201).json({ message: "User logged in successfully!!!!" , jwtoken: token});
-        }
+        const token = generateAuthToken({ _id: userExist._id });
+        return res.status(201).json({ message: "User logged in successfully", jwtoken: token });
     }
     catch (err) {
         console.log(err);
-        return res.status(500).json({error: "Internal server error"});
+        return res.status(500).json({ error: "Internal server error" });
     }
 }
 

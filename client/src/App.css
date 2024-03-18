@@ -7,12 +7,9 @@ body {
     text-align: center;
 }
 
-.secret-text {
-  text-align: center;
-  font-size: 2rem;
-  color: #fff;
-  padding: 2rem;
-  background-color: #343a40;
+textarea {
+  width: 100% !important;
+  min-height: 100px; 
 }
 
 .secret-card:hover{

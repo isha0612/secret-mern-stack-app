@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const User = require('../models/userSchema');
 const { verifyAuthToken } = require('../utils/jwt');
 const mongoose = require('mongoose');
@@ -6,14 +5,20 @@ const mongoose = require('mongoose');
 const Authenticate = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
-        console.log("COOKIE ", token);
+        if (!token) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
 
         const verifyToken = verifyAuthToken(token);
+
+        if (!verifyToken) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
 
         const rootUser = await User.findOne({ _id: verifyToken._id });
 
         if (!rootUser) {
-            throw new Error("User not found");
+            return res.status(401).json({ error: "User does not exist" });
         }
 
         req.token = token;
@@ -24,7 +29,7 @@ const Authenticate = async (req, res, next) => {
 
     } catch (err) {
         console.log(err);
-        res.status(401).json({ error: "Unauthorized" });
+        return res.status(401).json({ error: "Unauthorized" });
     }
 }
 

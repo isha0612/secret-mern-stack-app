@@ -14,26 +14,26 @@ function Secrets() {
     useEffect(() => {
         const getData = async () => {
             try {
-                console.log("Trying to get data");
                 const response = await axiosInst.get("/secrets");
                 if (response.status === 200 || response.status === 201) {
                     setData(response.data);
                 }
             }
             catch (err) {
-                toast(err.response.data.error, { type: "error" , autoClose: 1000});
+                toast(err.response.data.error, { type: "error", autoClose: 1000 });
             }
         }
         getData();
     }, []);
 
     function handleLogout() {
-        // document.cookie = "jwtoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         localStorage.removeItem("jwtoken");
-        toast("User successfully Logged Out!", { type: "success", autoClose: 1000, onClose: () => {
-            setIsAuthenticated(false);
-            navigate("/");
-        }});
+        toast("User successfully Logged Out", {
+            type: "success", autoClose: 1000, onClose: () => {
+                setIsAuthenticated(false);
+                navigate("/");
+            }
+        });
     }
 
     return (
@@ -41,19 +41,18 @@ function Secrets() {
             <div className="container-fluid">
                 <div class="m-4 d-flex flex-row align-items-center justify-content-end">
                     <i className="fas fa-key fa-6x mr-auto ml-auto">
-                        <h1 className="display-3">Anonymous Secrets!</h1>
+                        <h1 className="h1-responsive text-center">Anonymous Secrets!</h1>
                     </i>
                     <div class="dropdown">
-                        <img src={require("../images/profile.png")} alt="Avatar" class="avatar dropdown-toggle" data-bs-toggle="dropdown" style={{ "cursor": "pointer" }} />
+                        <img src={require("../images/profile.png")} alt="Avatar" class="avatar dropdown-toggle img-fluid" data-bs-toggle="dropdown" style={{ "cursor": "pointer" }} />
                         <div className="dropdown-menu bg-dark text-light pl-2 pt-2 pb-2 pr-2">
-                            <li className="m-2"><Link to="/submit" style={{"color":"inherit", "textDecoration":"none"}}>Submit a Secret</Link></li>
-                            <li className="m-2" onClick={handleLogout} style={{"cursor":"pointer"}}>Log Out</li>
+                            <li className="m-2"><Link to="/submit" style={{ "color": "inherit", "textDecoration": "none" }}>Submit a Secret</Link></li>
+                            <li className="m-2" onClick={handleLogout} style={{ "cursor": "pointer" }}>Log Out</li>
                         </div>
                     </div>
                 </div>
 
                 <hr />
-                <br />
                 {data === undefined || data.length === 0 ?
                     <div className="spinner-border" style={{ "width": "6rem", "height": "6rem", "role": "status", "marginTop": "2rem" }}>
                         <span className="sr-only">Loading...</span>
